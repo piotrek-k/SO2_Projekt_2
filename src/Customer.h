@@ -13,16 +13,18 @@ private:
 
     int locationX = 0;
     int locationY = 0;
+    int orderFreq = 0;
 
     int waitingTime = 0;
 
     void makeOrder();
+    void simulatingThread();
 
 public:
-    Customer(/* args */);
+    Customer(int orderFreq);
     ~Customer();
 
-    void Simulate();
+    void StartSimulation();
     void MarkOrderAsCompleted();
 };
 
