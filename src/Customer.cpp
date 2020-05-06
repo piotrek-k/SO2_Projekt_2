@@ -2,7 +2,7 @@
 
 Customer::Customer(int orderFreq,
                    std::vector<std::thread *> *globalThreadsContainerRef,
-                   MapSimulator *refToMap)
+                   DeliveryManager *refToMap)
 {
     this->orderFreq = orderFreq;
     this->globalThreadsContainer = globalThreadsContainerRef;

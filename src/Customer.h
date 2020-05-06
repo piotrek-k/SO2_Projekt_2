@@ -10,7 +10,7 @@ enum CustomerState {
     WaitingForOrder
 };
 
-class MapSimulator;
+class DeliveryManager;
 
 class Customer
 {
@@ -18,7 +18,7 @@ private:
     CustomerState state = NoAction;
 
     std::vector<std::thread *> *globalThreadsContainer;
-    MapSimulator* mapRef;
+    DeliveryManager* mapRef;
 
     int locationX = 0;
     int locationY = 0;
@@ -32,7 +32,7 @@ private:
 public:
     Customer(int orderFreq,
             std::vector<std::thread *> *globalThreadsContainerRef,
-            MapSimulator* refToMap);
+            DeliveryManager* refToMap);
     ~Customer();
 
     int GetPositionX();

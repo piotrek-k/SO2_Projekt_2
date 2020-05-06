@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 	init_pair(TABLE_DEFAULT, COLOR_WHITE, COLOR_CYAN);
 
 	Kitchen* kitchen = new Kitchen();
-	MapSimulator* map = new MapSimulator(50, 30, kitchen, 10, 10, 1, globalThreadsContainer);
+	DeliveryManager* map = new DeliveryManager(50, 30, kitchen, 10, 10, 1, globalThreadsContainer);
 
 	map->StartSimulation();
 

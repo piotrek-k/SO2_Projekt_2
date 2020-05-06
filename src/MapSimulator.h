@@ -9,7 +9,7 @@
 
 class Customer;
 
-class MapSimulator
+class DeliveryManager
 {
 private:
     const int positionX = 0;
@@ -31,10 +31,10 @@ private:
     void simulationThread(bool *stopSignal);
 
 public:
-    MapSimulator(int sizeX, int sizeY, Kitchen *kitchen,
+    DeliveryManager(int sizeX, int sizeY, Kitchen *kitchen,
                  int numOfDeliverymans, int numOfClients, int clientOrderFrequency,
                  std::vector<std::thread *> *globalThreadsContainerRef);
-    ~MapSimulator();
+    ~DeliveryManager();
 
     void StartSimulation();
     void Draw();

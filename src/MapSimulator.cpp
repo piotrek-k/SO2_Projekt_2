@@ -4,7 +4,7 @@
 #include "MapSimulator.h"
 #include "Globals.h"
 
-MapSimulator::MapSimulator(int sizeX, int sizeY, Kitchen *kitchen,
+DeliveryManager::DeliveryManager(int sizeX, int sizeY, Kitchen *kitchen,
                            int numOfDeliverymans, int numOfClients, int clientOrderFrequency,
                            std::vector<std::thread *> *globalThreadsContainerRef)
 {
@@ -25,11 +25,11 @@ MapSimulator::MapSimulator(int sizeX, int sizeY, Kitchen *kitchen,
     }
 }
 
-MapSimulator::~MapSimulator()
+DeliveryManager::~DeliveryManager()
 {
 }
 
-void MapSimulator::StartSimulation()
+void DeliveryManager::StartSimulation()
 {
     bool stopSignal = false;
     // std::thread *t = new std::thread(simulationThread, &stopSignal);
@@ -41,7 +41,7 @@ void MapSimulator::StartSimulation()
     }
 }
 
-void MapSimulator::Draw()
+void DeliveryManager::Draw()
 {
     for (int x = 0; x < this->sizeX; x++)
     {
@@ -70,13 +70,13 @@ void MapSimulator::Draw()
     }
 }
 
-void MapSimulator::simulationThread(bool *stopSignal)
+void DeliveryManager::simulationThread(bool *stopSignal)
 {
     while(!stopSignal){
 
     }
 }
 
-void MapSimulator::NewOrder(Customer* orderer){
+void DeliveryManager::NewOrder(Customer* orderer){
     this->waitingCustomers.push(orderer);
 }
