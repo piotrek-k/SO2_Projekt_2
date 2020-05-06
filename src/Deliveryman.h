@@ -21,6 +21,9 @@ public:
     Deliveryman(/* args */);
     ~Deliveryman();
 
+    int GetPositionX();
+    int GetPositionY();
+
     void GiveOrder();
 };
 
