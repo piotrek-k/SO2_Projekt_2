@@ -56,4 +56,6 @@ void Customer::MainLoop()
 
     activeOrder->StartWaiting();
     state = NoAction;
+
+    delete activeOrder;
 }

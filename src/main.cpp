@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 	init_pair(TABLE_DEFAULT, COLOR_WHITE, COLOR_CYAN);
 
 	Kitchen *kitchen = new Kitchen(15, 15);
-	DeliveryManager *map = new DeliveryManager(50, 30, kitchen, 10, 10, 1, globalThreadsContainer);
+	DeliveryManager *map = new DeliveryManager(50, 30, kitchen, 10, 1, 1, globalThreadsContainer);
 
 	map->StartSimulation();
 
@@ -44,6 +44,10 @@ int main(int argc, char *argv[])
 
 		map->Draw();
 		kitchen->Draw();
+
+		int position = 32;
+		mvprintw(position, 5, "Waiting orders: %d", map->waitingOrders.size());
+		mvprintw(position+1, 5, "Waiting deliverymans: %d", map->waitingDeliverymans.size());
 
 		refresh();
 

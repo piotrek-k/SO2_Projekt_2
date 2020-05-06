@@ -91,6 +91,11 @@ void DeliveryManager::simulationThread(bool *stopSignal)
 
 void DeliveryManager::NewOrder(Order *o)
 {
-    //this->waitingCustomers.push(orderer);
     this->waitingOrders.push(o);
+
+    if (this->waitingDeliverymans.size() > 0)
+    {
+        Deliveryman *d = this->waitingDeliverymans.front();
+        d->take_order_queue_CV.notify_one();
+    }
 }

@@ -53,9 +53,9 @@ void Deliveryman::MainLoop()
         {
             std::lock_guard<std::mutex> lock(deliveryManager->deliverymanQueueMtx);
             orderInstance = deliveryManager->waitingOrders.front();
-            deliveryManager->waitingOrders.pop();
             targetCustomer = orderInstance->targetCustomerRef;
-
+            deliveryManager->waitingOrders.pop();
+            
             state = DeliveringOrder;
         }
     }

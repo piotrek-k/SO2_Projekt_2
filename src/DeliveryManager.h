@@ -20,8 +20,6 @@ private:
 
     std::vector<std::thread *> *globalThreadsContainer = new std::vector<std::thread *>();
 
-    std::queue<Deliveryman *> waitingDeliverymans = std::queue<Deliveryman *>();
-
     void simulationThread(bool *stopSignal);
 
 public:
@@ -35,6 +33,7 @@ public:
 
     void NewOrder(Order *o);
 
+    std::queue<Deliveryman *> waitingDeliverymans = std::queue<Deliveryman *>();
     std::queue<Order *> waitingOrders;
     std::mutex deliverymanQueueMtx;
 
