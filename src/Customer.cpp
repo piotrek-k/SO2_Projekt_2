@@ -7,6 +7,9 @@ Customer::Customer(int orderFreq,
     this->orderFreq = orderFreq;
     this->globalThreadsContainer = globalThreadsContainerRef;
     this->mapRef = refToMap;
+
+    this->locationX = (rand() % this->mapRef->sizeX);
+    this->locationY = (rand() % this->mapRef->sizeY);
 }
 
 int Customer::GetPositionX()
@@ -27,7 +30,7 @@ void Customer::StartSimulation(bool *stopSignal)
 
 void Customer::simulationThread(bool *stopSignal, Customer *customer)
 {
-    while (!&stopSignal)
+    while (!*stopSignal)
     {
         customer->MainLoop();
     }

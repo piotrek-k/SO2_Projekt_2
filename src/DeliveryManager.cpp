@@ -5,8 +5,8 @@
 #include "Globals.h"
 
 DeliveryManager::DeliveryManager(int sizeX, int sizeY, Kitchen *kitchen,
-                           int numOfDeliverymans, int numOfClients, int clientOrderFrequency,
-                           std::vector<std::thread *> *globalThreadsContainerRef)
+                                 int numOfDeliverymans, int numOfClients, int clientOrderFrequency,
+                                 std::vector<std::thread *> *globalThreadsContainerRef)
 {
     this->sizeX = sizeX;
     this->sizeY = sizeY;
@@ -14,9 +14,11 @@ DeliveryManager::DeliveryManager(int sizeX, int sizeY, Kitchen *kitchen,
 
     this->globalThreadsContainer = globalThreadsContainerRef;
 
+    srand(time(NULL));
+
     for (int d = 0; d < numOfDeliverymans; d++)
     {
-        allDeliverymans.push_back(new Deliveryman(kitchen));
+        allDeliverymans.push_back(new Deliveryman(kitchen, globalThreadsContainer, this));
     }
 
     for (int d = 0; d < numOfClients; d++)
@@ -39,6 +41,11 @@ void DeliveryManager::StartSimulation()
     {
         c->StartSimulation(&stopSignal);
     }
+
+    for (auto &d : allDeliverymans)
+    {
+        d->StartSimulation(&stopSignal);
+    }
 }
 
 void DeliveryManager::Draw()
@@ -57,7 +64,7 @@ void DeliveryManager::Draw()
     {
         attron(COLOR_PAIR(MAP_DELIVERYMAN));
         mvaddch(this->positionY + d->GetPositionY(),
-            this->positionX + d->GetPositionX(), '*');
+                this->positionX + d->GetPositionX(), '*');
         attroff(COLOR_PAIR(MAP_DELIVERYMAN));
     }
 
@@ -65,19 +72,25 @@ void DeliveryManager::Draw()
     {
         attron(COLOR_PAIR(MAP_CLIENT));
         mvaddch(this->positionY + c->GetPositionY(),
-            this->positionX + c->GetPositionX(), ' ');
+                this->positionX + c->GetPositionX(), '#');
         attroff(COLOR_PAIR(MAP_CLIENT));
     }
+
+    attron(COLOR_PAIR(MAP_KITCHEN));
+    mvaddch(this->positionY + std::get<0>(this->kitchenRef->GetPositon()),
+            this->positionX + std::get<1>(this->kitchenRef->GetPositon()), ' ');
+    attroff(COLOR_PAIR(MAP_KITCHEN));
 }
 
 void DeliveryManager::simulationThread(bool *stopSignal)
 {
-    while(!stopSignal){
-
+    while (!stopSignal)
+    {
     }
 }
 
-void DeliveryManager::NewOrder(Order* o){
+void DeliveryManager::NewOrder(Order *o)
+{
     //this->waitingCustomers.push(orderer);
     this->waitingOrders.push(o);
 }

@@ -19,7 +19,7 @@ static void waitForKey(bool *threadStop)
 	}
 }
 
-std::vector<std::thread*> *globalThreadsContainer = new std::vector<std::thread*>();
+std::vector<std::thread *> *globalThreadsContainer = new std::vector<std::thread *>();
 
 int main(int argc, char *argv[])
 {
@@ -28,10 +28,11 @@ int main(int argc, char *argv[])
 	init_pair(MAP_BACKGROUND, COLOR_WHITE, COLOR_CYAN);
 	init_pair(MAP_CLIENT, COLOR_WHITE, COLOR_MAGENTA);
 	init_pair(MAP_DELIVERYMAN, COLOR_WHITE, COLOR_CYAN);
+	init_pair(MAP_KITCHEN, COLOR_WHITE, COLOR_RED);
 	init_pair(TABLE_DEFAULT, COLOR_WHITE, COLOR_CYAN);
 
-	Kitchen* kitchen = new Kitchen();
-	DeliveryManager* map = new DeliveryManager(50, 30, kitchen, 10, 10, 1, globalThreadsContainer);
+	Kitchen *kitchen = new Kitchen(15, 15);
+	DeliveryManager *map = new DeliveryManager(50, 30, kitchen, 10, 10, 1, globalThreadsContainer);
 
 	map->StartSimulation();
 

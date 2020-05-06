@@ -1,8 +1,10 @@
 #include "Deliveryman.h"
 
-Deliveryman::Deliveryman(Kitchen *kitchenRef)
+Deliveryman::Deliveryman(Kitchen *kitchenRef, std::vector<std::thread *> *globalThreadsContainerRef, DeliveryManager* deliveryManagerRef)
 {
     kitchenInstance = kitchenRef;
+    this->globalThreadsContainer = globalThreadsContainerRef;
+    this->deliveryManager = deliveryManagerRef;
 }
 
 Deliveryman::~Deliveryman()
@@ -66,6 +68,7 @@ void Deliveryman::MainLoop()
 
         if (currentTargetY == positionY && currentTargetX == positionX)
         {
+            this->orderInstance->UnlockWaitingThreads();
             state = ComingBackToKitchen;
         }
     }
@@ -93,10 +96,17 @@ void Deliveryman::MainLoop()
 
 void Deliveryman::simulateThread(bool *stopSignal, Deliveryman *instance)
 {
-    while (!&stopSignal)
+    bool ss = *stopSignal;
+    while (!ss)
     {
         instance->MainLoop();
     }
+}
+
+void Deliveryman::StartSimulation(bool *stopSignal)
+{
+    std::thread *t = new std::thread(simulateThread, stopSignal, this);
+    globalThreadsContainer->push_back(t);
 }
 
 // void Deliveryman::GiveOrder(Customer *customer, Order *order)

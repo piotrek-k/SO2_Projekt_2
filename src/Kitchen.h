@@ -8,15 +8,15 @@
 class Kitchen
 {
 private:
-    int positionX = 0;
-    int positionY = 0;
+    int positionX = 10;
+    int positionY = 10;
 
     std::vector<Worker> workers;
 
     void simulationThread();
 
 public:
-    Kitchen();
+    Kitchen(int positionX, int positionY);
     ~Kitchen();
 
     void StartSimulation();

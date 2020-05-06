@@ -14,7 +14,7 @@ enum DeliverymanState {
     ComingBackToKitchen
 };
 
-const int DELIVERYMAN_STEP_TIME_MS = 1000;
+const int DELIVERYMAN_STEP_TIME_MS = 100;
 
 class Customer;
 class Order;
@@ -34,10 +34,12 @@ private:
     Kitchen* kitchenInstance;
     DeliveryManager* deliveryManager;
 
-    void simulateThread(bool *stopSignal, Deliveryman *instance);
+    std::vector<std::thread *> *globalThreadsContainer;
+
+    static void simulateThread(bool *stopSignal, Deliveryman *instance);
 
 public:
-    Deliveryman(Kitchen* kitchenRef);
+    Deliveryman(Kitchen* kitchenRef, std::vector<std::thread *> *globalThreadsContainerRef, DeliveryManager* deliveryManagerRef);
     ~Deliveryman();
 
     int GetPositionX();
@@ -46,6 +48,7 @@ public:
     // void GiveOrder(Customer* customer, Order* order);
 
     void MainLoop();
+    void StartSimulation(bool *stopSignal);
 
     std::condition_variable take_order_queue_CV;
 };
