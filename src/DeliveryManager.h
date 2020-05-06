@@ -6,8 +6,10 @@
 #include "Deliveryman.h"
 #include "Customer.h"
 #include "Kitchen.h"
+#include "Order.h"
 
 class Customer;
+class Deliveryman;
 
 class DeliveryManager
 {
@@ -26,20 +28,22 @@ private:
     std::vector<std::thread *> *globalThreadsContainer;
 
     std::queue<Deliveryman *> waitingDeliverymans;
-    std::queue<Customer *> waitingCustomers;
 
     void simulationThread(bool *stopSignal);
 
 public:
     DeliveryManager(int sizeX, int sizeY, Kitchen *kitchen,
-                 int numOfDeliverymans, int numOfClients, int clientOrderFrequency,
-                 std::vector<std::thread *> *globalThreadsContainerRef);
+                    int numOfDeliverymans, int numOfClients, int clientOrderFrequency,
+                    std::vector<std::thread *> *globalThreadsContainerRef);
     ~DeliveryManager();
 
     void StartSimulation();
     void Draw();
 
-    void NewOrder(Customer* orderer);
+    void NewOrder(Order *o);
+
+    std::queue<Order *> waitingOrders;
+    std::mutex deliverymanQueueMtx;
 };
 
 #endif //SO2_PROJEKT_MAPSIMULATOR

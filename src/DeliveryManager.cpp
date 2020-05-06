@@ -1,7 +1,7 @@
 #include <curses.h>
 #include <thread>
 
-#include "MapSimulator.h"
+#include "DeliveryManager.h"
 #include "Globals.h"
 
 DeliveryManager::DeliveryManager(int sizeX, int sizeY, Kitchen *kitchen,
@@ -16,7 +16,7 @@ DeliveryManager::DeliveryManager(int sizeX, int sizeY, Kitchen *kitchen,
 
     for (int d = 0; d < numOfDeliverymans; d++)
     {
-        allDeliverymans.push_back(new Deliveryman());
+        allDeliverymans.push_back(new Deliveryman(kitchen));
     }
 
     for (int d = 0; d < numOfClients; d++)
@@ -77,6 +77,7 @@ void DeliveryManager::simulationThread(bool *stopSignal)
     }
 }
 
-void DeliveryManager::NewOrder(Customer* orderer){
-    this->waitingCustomers.push(orderer);
+void DeliveryManager::NewOrder(Order* o){
+    //this->waitingCustomers.push(orderer);
+    this->waitingOrders.push(o);
 }

@@ -3,7 +3,8 @@
 
 #include <thread>
 #include <vector>
-#include "MapSimulator.h"
+#include "DeliveryManager.h"
+#include "Order.h"
 
 enum CustomerState {
     NoAction,
@@ -11,6 +12,7 @@ enum CustomerState {
 };
 
 class DeliveryManager;
+class Order;
 
 class Customer
 {
@@ -25,6 +27,8 @@ private:
     int orderFreq = 0;
 
     int waitingTime = 0;
+
+    Order* activeOrder;
 
     void makeOrder();
     static void simulationThread(bool *stopSignal, Customer* customer);
@@ -41,7 +45,7 @@ public:
     void StartSimulation(bool* stopSignal);
     void MarkOrderAsCompleted();
 
-    void NextAction();
+    void MainLoop();
 };
 
 #endif //SO2_PROJEKT_CUSTOMER

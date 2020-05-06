@@ -25,9 +25,12 @@ void Customer::StartSimulation(bool *stopSignal)
     globalThreadsContainer->push_back(t);
 }
 
-void Customer::simulationThread(bool *stopSignal, Customer* customer)
+void Customer::simulationThread(bool *stopSignal, Customer *customer)
 {
-    customer->NextAction();
+    while (!&stopSignal)
+    {
+        customer->MainLoop();
+    }
 }
 
 void Customer::MarkOrderAsCompleted()
@@ -35,17 +38,19 @@ void Customer::MarkOrderAsCompleted()
     state = NoAction;
 }
 
-void Customer::NextAction()
+void Customer::MainLoop()
 {
-    if (this->state == NoAction)
-    {
-        srand(time(NULL));
-        float randomNum = (rand() % 10) / (float)10;
-        int timeToNextOrder = (orderFreq + randomNum) * 1000;
+    srand(time(NULL));
+    float randomNum = (rand() % 10) / (float)10;
+    int timeToNextOrder = (orderFreq + randomNum) * 1000;
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(timeToNextOrder));
+    std::this_thread::sleep_for(std::chrono::milliseconds(timeToNextOrder));
 
-        this->mapRef->NewOrder(this);
-        state = WaitingForOrder;
-    }
+    activeOrder = new Order(this);
+
+    this->mapRef->NewOrder(activeOrder);
+    state = WaitingForOrder;
+
+    activeOrder->StartWaiting();
+    state = NoAction;
 }
