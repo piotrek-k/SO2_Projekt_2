@@ -44,6 +44,7 @@ public:
 
     void StartSimulation(bool* stopSignal);
     void MarkOrderAsCompleted();
+    CustomerState GetState();
 
     void MainLoop();
 };

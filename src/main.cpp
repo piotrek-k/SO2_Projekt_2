@@ -26,7 +26,8 @@ int main(int argc, char *argv[])
 	initscr(); /* Start curses mode 		  */
 	start_color();
 	init_pair(MAP_BACKGROUND, COLOR_WHITE, COLOR_CYAN);
-	init_pair(MAP_CLIENT, COLOR_WHITE, COLOR_MAGENTA);
+	init_pair(MAP_CLIENT, COLOR_WHITE, COLOR_YELLOW);
+	init_pair(MAP_CLIENT_ACTIVE, COLOR_WHITE, COLOR_MAGENTA);
 	init_pair(MAP_DELIVERYMAN, COLOR_WHITE, COLOR_CYAN);
 	init_pair(MAP_KITCHEN, COLOR_WHITE, COLOR_RED);
 	init_pair(TABLE_DEFAULT, COLOR_WHITE, COLOR_CYAN);
@@ -47,14 +48,14 @@ int main(int argc, char *argv[])
 
 		int position = 32;
 		mvprintw(position, 5, "Waiting orders: %d", map->waitingOrders.size());
-		mvprintw(position+1, 5, "Waiting deliverymans: %d", map->waitingDeliverymans.size());
+		mvprintw(position+1, 5, "Waiting deliverymen: %d", map->waitingDeliverymans.size());
 
 		refresh();
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
 
-	getch(); /* Wait for user input */
+	//getch(); /* Wait for user input */
 	endwin();
 	return 0;
 }

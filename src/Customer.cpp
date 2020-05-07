@@ -59,3 +59,7 @@ void Customer::MainLoop()
 
     delete activeOrder;
 }
+
+CustomerState Customer::GetState() {
+    return state;
+}
