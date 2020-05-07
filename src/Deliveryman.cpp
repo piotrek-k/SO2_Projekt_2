@@ -44,14 +44,15 @@ void Deliveryman::MainLoop()
         {
             // wstrzymaj wątek
             std::unique_lock<std::mutex> ulock(deliveryManager->deliverymanQueueMtx);
+            deliveryManager->waitingDeliverymans.push(this);
             take_order_queue_CV.wait(ulock);
             // wątek wznawiany gdy DeliveryManager otrzyma nowy obiekt Order
             // oraz instancja Deliveryman jest pierwsza w kolejce oczekujących
         }
 
+        std::lock_guard<std::mutex> lock(deliveryManager->deliverymanQueueMtx);
         if (deliveryManager->waitingOrders.size() > 0)
         {
-            std::lock_guard<std::mutex> lock(deliveryManager->deliverymanQueueMtx);
             orderInstance = deliveryManager->waitingOrders.front();
             targetCustomer = orderInstance->targetCustomerRef;
             deliveryManager->waitingOrders.pop();

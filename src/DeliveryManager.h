@@ -7,6 +7,7 @@
 #include "Customer.h"
 #include "Kitchen.h"
 #include "Order.h"
+#include "others/atomic_queue.h"
 
 class Customer;
 class Deliveryman;
@@ -34,7 +35,7 @@ public:
     void NewOrder(Order *o);
 
     std::queue<Deliveryman *> waitingDeliverymans = std::queue<Deliveryman *>();
-    std::queue<Order *> waitingOrders;
+    atomic_queue<Order *> waitingOrders;
     std::mutex deliverymanQueueMtx;
 
     int positionX = 0;

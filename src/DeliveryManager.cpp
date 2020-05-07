@@ -97,5 +97,6 @@ void DeliveryManager::NewOrder(Order *o)
     {
         Deliveryman *d = this->waitingDeliverymans.front();
         d->take_order_queue_CV.notify_one();
+        this->waitingDeliverymans.pop();
     }
 }

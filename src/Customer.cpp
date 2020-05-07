@@ -44,7 +44,7 @@ void Customer::MarkOrderAsCompleted()
 void Customer::MainLoop()
 {
     srand(time(NULL));
-    float randomNum = (rand() % 10) / (float)10;
+    int randomNum = (rand() % (2 * orderFreq)) - orderFreq;
     int timeToNextOrder = (orderFreq + randomNum) * 1000;
 
     std::this_thread::sleep_for(std::chrono::milliseconds(timeToNextOrder));
