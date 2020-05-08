@@ -34,7 +34,7 @@ public:
 
     void NewOrder(Order *o);
 
-    std::queue<Deliveryman *> waitingDeliverymans = std::queue<Deliveryman *>();
+    atomic_queue<Deliveryman *> waitingDeliverymans;
     atomic_queue<Order *> waitingOrders;
     std::mutex deliverymanQueueMtx;
 

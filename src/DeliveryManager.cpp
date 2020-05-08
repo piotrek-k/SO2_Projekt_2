@@ -70,7 +70,7 @@ void DeliveryManager::Draw()
 
     for (auto &c : allCustomers)
     {
-        int color = c->GetState() == WaitingForOrders ? MAP_CLIENT_ACTIVE : MAP_CLIENT;
+        int color = c->GetState() == WaitingForOrder ? MAP_CLIENT_ACTIVE : MAP_CLIENT;
         attron(COLOR_PAIR(color));
         mvaddch(this->positionY + c->GetPositionY(),
                 this->positionX + c->GetPositionX(), ' ');

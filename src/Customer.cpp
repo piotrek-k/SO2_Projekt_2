@@ -43,7 +43,6 @@ void Customer::MarkOrderAsCompleted()
 
 void Customer::MainLoop()
 {
-    srand(time(NULL));
     int randomNum = (rand() % (2 * orderFreq)) - orderFreq;
     int timeToNextOrder = (orderFreq + randomNum) * 1000;
 
