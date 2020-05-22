@@ -94,10 +94,6 @@ void DeliveryManager::NewOrder(Order *o)
 {
     this->waitingOrders.push(o);
 
-    if (this->waitingDeliverymans.size() > 0)
-    {
-        Deliveryman *d = this->waitingDeliverymans.front();
-        d->take_order_queue_CV.notify_one();
-        this->waitingDeliverymans.pop();
-    }
+    deliverymanQueueCV.notify_all();
+    waitForOrdersCV.notify_all();
 }

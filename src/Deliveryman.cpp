@@ -40,25 +40,28 @@ void Deliveryman::MainLoop()
     }
     else if (state == WaitingForOrders)
     {
-        if (deliveryManager->waitingOrders.size() == 0)
-        {
-            // wstrzymaj wątek
-            std::unique_lock<std::mutex> ulock(deliveryManager->deliverymanQueueMtx);
-            deliveryManager->waitingDeliverymans.push(this);
-            take_order_queue_CV.wait(ulock);
-            // wątek wznawiany gdy DeliveryManager otrzyma nowy obiekt Order
-            // oraz instancja Deliveryman jest pierwsza w kolejce oczekujących
+        std::unique_lock<std::mutex> ulock_dman(deliveryManager->deliverymanQueueMtx);
+        deliveryManager->waitingDeliverymans.push(this);
+
+        while(deliveryManager->waitingDeliverymans.front() != this){
+            deliveryManager->deliverymanQueueCV.wait(ulock_dman);
         }
 
-        std::lock_guard<std::mutex> lock(deliveryManager->deliverymanQueueMtx);
-        if (deliveryManager->waitingOrders.size() > 0)
-        {
-            orderInstance = deliveryManager->waitingOrders.front();
-            targetCustomer = orderInstance->targetCustomerRef;
-            deliveryManager->waitingOrders.pop();
-            
-            state = DeliveringOrder;
+        while(deliveryManager->waitingOrders.size() == 0){
+            deliveryManager->waitForOrdersCV.wait(ulock_dman);
         }
+
+        // od tego miejsca gwarantowana jest obecność zamówienia w kolejce
+        // dostawca ma wyłączność na jego odebranie
+
+        orderInstance = deliveryManager->waitingOrders.front();
+        targetCustomer = orderInstance->targetCustomerRef;
+        deliveryManager->waitingOrders.pop();
+        
+        state = DeliveringOrder;
+
+        deliveryManager->waitingDeliverymans.pop();
+        deliveryManager->deliverymanQueueCV.notify_all();
     }
     else if (state == DeliveringOrder)
     {

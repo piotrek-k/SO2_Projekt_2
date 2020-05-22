@@ -49,8 +49,6 @@ public:
 
     void MainLoop();
     void StartSimulation(bool *stopSignal);
-
-    std::condition_variable take_order_queue_CV;
 };
 
 

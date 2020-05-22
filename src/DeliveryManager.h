@@ -36,7 +36,10 @@ public:
 
     atomic_queue<Deliveryman *> waitingDeliverymans;
     atomic_queue<Order *> waitingOrders;
+
     std::mutex deliverymanQueueMtx;
+    std::condition_variable deliverymanQueueCV;
+    std::condition_variable waitForOrdersCV;
 
     int positionX = 0;
     int positionY = 0;
