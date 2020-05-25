@@ -16,7 +16,7 @@ private:
     std::vector<int> tableColumnsSizes = {1, 1, 1};
     int tableWidth = 50;
 
-    std::vector<Worker*> workers;
+    std::vector<Worker *> workers;
 
     void simulationThread();
 
@@ -27,7 +27,12 @@ public:
     void StartSimulation();
     void Draw();
 
-    int getColumnBeginningPos(int columnIndex);
+    static void tableDrawHorizontalBorder(int x, int y, int width);
+    static int getColumnBeginningPos(std::vector<int> tableColumnsSizes, int tableWidth, int columnIndex);
+    static void generateTable(
+        std::vector<std::vector<std::string>> contents,
+        std::vector<int> tableColumnsSizes, int posX,
+        int posY, int tableWidth);
 
     std::tuple<int, int> GetPositon()
     {

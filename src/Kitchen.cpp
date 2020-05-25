@@ -19,59 +19,72 @@ void Kitchen::StartSimulation()
 {
 }
 
-void Kitchen::Draw()
+void Kitchen::generateTable(std::vector<std::vector<std::string>> contents,
+                            std::vector<int> tableColumnsSizes, int posX,
+                            int posY, int tableWidth)
 {
-    int currentLinePosVertical = this->tablePositionY;
-    int currentLinePosHorizontal = this->tablePositionX;
+    int currentLinePosVertical = posY;
+    int currentLinePosHorizontal = posX;
 
-    for (int x = 0; x < tableWidth; x++)
-    {
-        mvaddch(this->tablePositionY,
-                this->tablePositionX + x, '*');
-    }
+    tableDrawHorizontalBorder(posX, currentLinePosVertical, tableWidth);
 
     currentLinePosVertical++;
 
-    for (auto &w : workers)
+    for (auto &row : contents)
     {
-        currentLinePosHorizontal =
-            this->tablePositionX + getColumnBeginningPos(0);
+        int colIndex = 0;
+        for (auto &col : row)
+        {
+            currentLinePosHorizontal =
+                posX + getColumnBeginningPos(tableColumnsSizes, tableWidth, colIndex);
 
-        mvaddch(currentLinePosVertical,
-                currentLinePosHorizontal, '*');
+            mvaddch(currentLinePosVertical,
+                    currentLinePosHorizontal, '*');
 
-        mvprintw(currentLinePosVertical, currentLinePosHorizontal + 1,
-                 " %s", w->getName().c_str());
+            mvprintw(currentLinePosVertical, currentLinePosHorizontal + 1,
+                     " %s", col.c_str());
 
-        currentLinePosHorizontal =
-            this->tablePositionX + getColumnBeginningPos(1);
+            colIndex++;
+        }
 
-        mvaddch(currentLinePosVertical,
-                currentLinePosHorizontal, '*');
-
-        mvprintw(currentLinePosVertical, currentLinePosHorizontal + 1,
-                 " %s", w->getStateName().c_str());
-
-        currentLinePosHorizontal = this->tablePositionX + this->tableWidth - 1;
+        currentLinePosHorizontal = posX + tableWidth - 1;
         mvaddch(currentLinePosVertical,
                 currentLinePosHorizontal, '*');
 
         currentLinePosVertical++;
     }
 
-    currentLinePosHorizontal = this->tablePositionX;
-    for (int x = 0; x < tableWidth; x++)
+    tableDrawHorizontalBorder(posX, currentLinePosVertical, tableWidth);
+}
+
+void Kitchen::tableDrawHorizontalBorder(int x, int y, int width)
+{
+    for (int q = 0; q < width; q++)
     {
-        mvaddch(currentLinePosVertical,
-                currentLinePosHorizontal + x, '*');
+        mvaddch(y, x + q, '*');
     }
+}
+
+void Kitchen::Draw()
+{
+    std::vector<std::vector<std::string>> contents;
+
+    for(auto &w: workers){
+        std::vector<std::string> row;
+        row.push_back(w->getName());
+        row.push_back(w->getStateName());
+        row.push_back("Random text");
+        contents.push_back(row);
+    }
+
+    generateTable(contents, tableColumnsSizes, tablePositionX, tablePositionY, tableWidth);
 }
 
 void Kitchen::simulationThread()
 {
 }
 
-int Kitchen::getColumnBeginningPos(int columnIndex)
+int Kitchen::getColumnBeginningPos(std::vector<int> tableColumnsSizes, int tableWidth, int columnIndex)
 {
 
     int sum = 0;
