@@ -4,6 +4,7 @@
 #include <vector>
 #include <tuple>
 #include "Worker.h"
+#include "Table.h"
 
 class Kitchen
 {
@@ -11,12 +12,9 @@ private:
     int positionX = 10;
     int positionY = 10;
 
-    int tablePositionX = 55;
-    int tablePositionY = 0;
-    std::vector<int> tableColumnsSizes = {1, 1, 1};
-    int tableWidth = 50;
-
     std::vector<Worker *> workers;
+
+    Table *mainTable;
 
     void simulationThread();
 
@@ -26,13 +24,6 @@ public:
 
     void StartSimulation();
     void Draw();
-
-    static void tableDrawHorizontalBorder(int x, int y, int width);
-    static int getColumnBeginningPos(std::vector<int> tableColumnsSizes, int tableWidth, int columnIndex);
-    static void generateTable(
-        std::vector<std::vector<std::string>> contents,
-        std::vector<int> tableColumnsSizes, int posX,
-        int posY, int tableWidth);
 
     std::tuple<int, int> GetPositon()
     {
