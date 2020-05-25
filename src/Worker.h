@@ -1,6 +1,8 @@
 #ifndef SO2_PROJEKT_WORKER
 #define SO2_PROJEKT_WORKER
 
+#include "TableElement.h"
+
 enum WorkerState
 {
     HasNoJob,
@@ -9,7 +11,7 @@ enum WorkerState
     MakesSandwich
 };
 
-class Worker
+class Worker : public TableElement
 {
 private:
     WorkerState state = HasNoJob;
@@ -21,6 +23,9 @@ private:
 public:
     Worker(/* args */);
     ~Worker();
+
+    std::string getName();
+    std::string getStateName();
 
     void Simulate();
     void Kill();
