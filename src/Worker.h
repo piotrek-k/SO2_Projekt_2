@@ -5,6 +5,8 @@
 #include "Kitchen.h"
 #include <thread>
 
+class Kitchen;
+
 enum WorkerState
 {
     HasNoJob,

@@ -1,15 +1,19 @@
 #ifndef SO2_PROJEKT_CABINET
 #define SO2_PROJEKT_CABINET
 
+#include <mutex>
+
 class Cabinet
 {
 private:
-    /* data */
+    int ingredientSets = 0;
+    std::mutex mtx;
+
 public:
     Cabinet(/* args */);
     ~Cabinet();
 
-    void GetFoodSync();
+    bool TryGetFood();
 };
 
 #endif //SO2_PROJEKT_CABINET

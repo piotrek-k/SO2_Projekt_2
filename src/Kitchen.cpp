@@ -1,7 +1,4 @@
 #include "Kitchen.h"
-#include "Globals.h"
-#include "Worker.h"
-#include "Table.h"
 
 #include <curses.h>
 
@@ -12,7 +9,7 @@ Kitchen::Kitchen(int positionX, int positionY, int numOfWorkers)
 
     for (int w = 0; w < numOfWorkers; w++)
     {
-        workers.push_back(new Worker());
+        workers.push_back(new Worker(this, globalThreadsContainer));
     }
 
     mainTable = new Table(55, 1, std::vector<int>{1, 1, 1}, 50);
@@ -46,4 +43,32 @@ void Kitchen::Draw()
 
 void Kitchen::simulationThread()
 {
+}
+
+bool Kitchen::TryGetOrderToCarryOut()
+{
+    std::unique_lock<std::mutex> lock(ordersMutex, std::try_to_lock);
+    if (lock.owns_lock())
+    {
+        if (waitingOrders > 0)
+        {
+            waitingOrders--;
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Kitchen::TryGetReadyIngredients()
+{
+    std::unique_lock<std::mutex> lock(readyIngredientsMutex, std::try_to_lock);
+    if (lock.owns_lock())
+    {
+        if (waitingReadyIngredients > 0)
+        {
+            waitingReadyIngredients--;
+            return true;
+        }
+    }
+    return false;
 }
