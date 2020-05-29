@@ -2,6 +2,8 @@
 #define SO2_PROJEKT_WORKER
 
 #include "TableElement.h"
+#include "Kitchen.h"
+#include <thread>
 
 enum WorkerState
 {
@@ -16,19 +18,27 @@ class Worker : public TableElement
 private:
     WorkerState state = HasNoJob;
 
+    Kitchen* kitchenInstance;
+
     void goToDepot();
     void processFood();
     void makeSandwich();
 
+    std::vector<std::thread *> *globalThreadsContainer;
+
+    static void simulateThread(bool *stopSignal, Worker *instance);
+
 public:
-    Worker(/* args */);
+    Worker(Kitchen* kitchenRef, std::vector<std::thread *> *globalThreadsContainerRef);
     ~Worker();
 
     std::string getName();
     std::string getStateName();
 
-    void Simulate();
+    void StartSimulation(bool *stopSignal);
     void Kill();
+
+    void MainLoop();
 };
 
 #endif //SO2_PROJEKT_WORKER

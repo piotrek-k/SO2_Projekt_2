@@ -20,6 +20,12 @@ Kitchen::Kitchen(int positionX, int positionY, int numOfWorkers)
 
 void Kitchen::StartSimulation()
 {
+    bool stopSignal = false;
+
+    for (auto &w : workers)
+    {
+        w->StartSimulation(&stopSignal);
+    }
 }
 
 void Kitchen::Draw()
