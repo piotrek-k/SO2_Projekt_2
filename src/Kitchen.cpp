@@ -41,22 +41,28 @@ void Kitchen::Draw()
     mainTable->generateTable(contents);
 }
 
+void Kitchen::PassNewOrder(Order *o){
+    this->waitingOrders.push(o);
+}
+
 void Kitchen::simulationThread()
 {
 }
 
-bool Kitchen::TryGetOrderToCarryOut()
+Order* Kitchen::TryGetOrderToCarryOut()
 {
     std::unique_lock<std::mutex> lock(ordersMutex, std::try_to_lock);
     if (lock.owns_lock())
     {
-        if (waitingOrders > 0)
+        if (waitingOrders.size() > 0)
         {
-            waitingOrders--;
-            return true;
+            //waitingOrders--;
+            Order* temp = waitingOrders.front();
+            waitingOrders.pop();
+            return temp;
         }
     }
-    return false;
+    return nullptr;
 }
 
 bool Kitchen::TryGetReadyIngredients()
@@ -71,4 +77,8 @@ bool Kitchen::TryGetReadyIngredients()
         }
     }
     return false;
+}
+
+void Kitchen::AddNewReadyIngredient(){
+    waitingReadyIngredients++;
 }

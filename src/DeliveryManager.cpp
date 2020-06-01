@@ -85,12 +85,16 @@ void DeliveryManager::Draw()
 
 void DeliveryManager::simulationThread(bool *stopSignal)
 {
-    while (!stopSignal)
-    {
-    }
+    // while (!stopSignal)
+    // {
+    // }
 }
 
-void DeliveryManager::NewOrder(Order *o)
+void DeliveryManager::NewOrderToCarryOut(Order *o){
+    this->kitchenRef->PassNewOrder(o);
+}
+
+void DeliveryManager::OrderReadyToDeliver(Order *o)
 {
     this->waitingOrders.push(o);
 

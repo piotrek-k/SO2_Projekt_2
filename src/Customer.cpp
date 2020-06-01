@@ -50,7 +50,8 @@ void Customer::MainLoop()
 
     activeOrder = new Order(this);
 
-    this->mapRef->NewOrder(activeOrder);
+    //this->mapRef->OrderReadyToDeliver(activeOrder);
+    this->mapRef->NewOrderToCarryOut(activeOrder);
     state = WaitingForOrder;
 
     activeOrder->StartWaiting();

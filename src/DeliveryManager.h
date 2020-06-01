@@ -32,7 +32,8 @@ public:
     void StartSimulation();
     void Draw();
 
-    void NewOrder(Order *o);
+    void NewOrderToCarryOut(Order *o);
+    void OrderReadyToDeliver(Order *o);
 
     atomic_queue<Deliveryman *> waitingDeliverymans;
     atomic_queue<Order *> waitingOrders;

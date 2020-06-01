@@ -3,7 +3,10 @@
 
 #include "TableElement.h"
 #include "Kitchen.h"
+#include <map>
 #include <thread>
+#include <algorithm>
+#include "Globals.h"
 
 class Kitchen;
 
@@ -12,7 +15,9 @@ enum WorkerState
     HasNoJob,
     IsInDepot,
     DoesThermalProcessing,
-    MakesSandwich
+    MakesSandwich,
+    PrepareIngredient,
+    TakingOrder
 };
 
 class Worker : public TableElement
