@@ -36,6 +36,7 @@ private:
     std::mutex readyIngredientsMutex;
 
     Table *mainTable;
+    Table *orderQueuesTable;
 
     void simulationThread();
 
