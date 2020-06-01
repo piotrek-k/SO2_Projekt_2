@@ -19,12 +19,12 @@ void Worker::MainLoop()
 {
     if (state == HasNoJob)
     {
-        std::map<char, int> prioritiesMap = {
-            {'TakeOrder', kitchenInstance->GetWaitingOrdersNumber()},
+        std::map<std::string, int> prioritiesMap = {
+            {"TakeOrder", kitchenInstance->GetWaitingOrdersNumber()},
             //{'GoToDepot', kitchenInstance->GetNumberOfOrdersToPrepare() - kitchenInstance->GetReadyIngredientsNumber()},
-            {'ProcessFood', kitchenInstance->GetOrdersToHeat()},
-            {'PrepareIngr', kitchenInstance->GetNumberOfOrdersToPrepare() - kitchenInstance->GetReadyIngredientsNumber()},
-            {'MakeSandwich', kitchenInstance->GetNumberOfOrdersToPrepare()}};
+            {"ProcessFood", kitchenInstance->GetOrdersToHeat()},
+            {"PrepareIngr", kitchenInstance->GetNumberOfOrdersToPrepare() - kitchenInstance->GetReadyIngredientsNumber()},
+            {"MakeSandwich", kitchenInstance->GetNumberOfOrdersToPrepare()}};
 
         using pair_type = decltype(prioritiesMap)::value_type;
 
@@ -34,23 +34,23 @@ void Worker::MainLoop()
                 return p1.second < p2.second;
             });
 
-        if (maxElem->first == 'TakeOrder')
+        if (maxElem->first == "TakeOrder")
         {
             state = TakingOrder;
         }
-        else if (maxElem->second == 'GoToDepot')
+        else if (maxElem->first == "GoToDepot")
         {
             state = IsInDepot;
         }
-        else if (maxElem->first == 'ProcessFood')
+        else if (maxElem->first == "ProcessFood")
         {
             state = DoesThermalProcessing;
         }
-        else if (maxElem->first == 'PrepareIngr')
+        else if (maxElem->first == "PrepareIngr")
         {
             state = PrepareIngredient;
         }
-        else if (maxElem->first == 'MakeSandwich')
+        else if (maxElem->first == "MakeSandwich")
         {
             state = MakesSandwich;
         }
