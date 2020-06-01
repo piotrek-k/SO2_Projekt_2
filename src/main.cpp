@@ -34,6 +34,7 @@ int main(int argc, char *argv[])
 
 	Kitchen *kitchen = new Kitchen(15, 15, 5);
 	DeliveryManager *map = new DeliveryManager(50, 30, kitchen, 3, 10, 5, globalThreadsContainer);
+	kitchen->AddDeliveryManager(map);
 
 	map->StartSimulation();
 	kitchen->StartSimulation();

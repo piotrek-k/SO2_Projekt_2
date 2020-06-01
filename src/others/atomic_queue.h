@@ -17,18 +17,25 @@ public:
         m_queque.pop();
     }
 
-    T pop_and_get(){
+    T pop_and_get()
+    {
         std::lock_guard<std::mutex> lock(m_mutex);
-        m_queque.pop();
-        return m_queque.front();
+        if (m_queque.size() > 0)
+        {
+            m_queque.pop();
+            return m_queque.front();
+        }
+        return nullptr;
     }
 
-    int size(){
+    int size()
+    {
         std::lock_guard<std::mutex> lock(m_mutex);
         return m_queque.size();
     }
 
-    T front(){
+    T front()
+    {
         std::lock_guard<std::mutex> lock(m_mutex);
         return m_queque.front();
     }

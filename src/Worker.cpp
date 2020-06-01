@@ -60,12 +60,17 @@ void Worker::MainLoop()
     }
     else if (state == DoesThermalProcessing)
     {
+        // TODO: temp
+        std::this_thread::sleep_for(std::chrono::milliseconds(INGREDIENTS_PREPARATION_MS));
+
+        kitchenInstance->deliveryManager->OrderReadyToDeliver(
+            kitchenInstance->GetHeatedOrder()
+        );
     }
     else if (state == MakesSandwich)
     {
         Order *o = kitchenInstance->GetOrderToPrepare();
-        if (this->kitchenInstance->TryGetReadyIngredients() &&
-            o != nullptr)
+        if (o != nullptr && this->kitchenInstance->TryGetReadyIngredients())
         {
             std::this_thread::sleep_for(std::chrono::milliseconds(SANDWICH_PREPARATION_MS));
             kitchenInstance->PassOrderToHeat(o);

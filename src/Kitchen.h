@@ -14,6 +14,7 @@
 #include "others/atomic_queue.h"
 
 class Worker;
+class DeliveryManager;
 
 class Kitchen
 {
@@ -60,7 +61,11 @@ public:
     int GetOrdersToHeat() { return ordersToHeat.size(); }
     int GetReadyIngredientsNumber() { return waitingReadyIngredients; }
 
-    Order* GetOrderToPrepare(){ return ordersToPrepare.pop_and_get(); }
+    Order *GetOrderToPrepare() { return ordersToPrepare.pop_and_get(); }
+    Order *GetHeatedOrder() { return ordersToHeat.pop_and_get(); }
+
+    DeliveryManager *deliveryManager;
+    void AddDeliveryManager(DeliveryManager *dm) { this->deliveryManager = dm; }
 
     std::tuple<int, int> GetPositon()
     {

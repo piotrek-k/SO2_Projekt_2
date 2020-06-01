@@ -11,6 +11,7 @@
 
 class Customer;
 class Deliveryman;
+class Kitchen;
 
 class DeliveryManager
 {
