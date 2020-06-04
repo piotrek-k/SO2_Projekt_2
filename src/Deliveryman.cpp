@@ -75,7 +75,7 @@ void Deliveryman::MainLoop()
             this->orderInstance->UnlockWaitingThreads();
             state = ComingBackToKitchen;
 
-            delete orderInstance;
+            //delete orderInstance;
             orderInstance = nullptr;
         }
     }
