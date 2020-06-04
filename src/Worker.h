@@ -7,6 +7,7 @@
 #include <thread>
 #include <algorithm>
 #include "Globals.h"
+#include "KnivesManager.h"
 
 class Kitchen;
 
@@ -17,7 +18,8 @@ enum WorkerState
     DoesThermalProcessing,
     MakesSandwich,
     PrepareIngredient,
-    TakingOrder
+    TakingOrder,
+    WaitingForThermalProcessing,
 };
 
 class Worker : public TableElement

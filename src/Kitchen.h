@@ -12,9 +12,11 @@
 #include "Fryer.h"
 #include "Order.h"
 #include "others/atomic_queue.h"
+#include "KnivesManager.h"
 
 class Worker;
 class DeliveryManager;
+class KnivesManager;
 
 class Kitchen
 {
@@ -42,7 +44,7 @@ private:
     void simulationThread();
 
 public:
-    Kitchen(int positionX, int positionY, int numOfWorkers);
+    Kitchen(int positionX, int positionY, int numOfWorkers, int numOfKnives);
     ~Kitchen();
 
     void StartSimulation();
@@ -65,6 +67,8 @@ public:
     Order *GetHeatedOrder() { return ordersToHeat.pop_and_get(); }
 
     DeliveryManager *deliveryManager;
+    KnivesManager *knivesManager;
+
     void AddDeliveryManager(DeliveryManager *dm) { this->deliveryManager = dm; }
 
     std::tuple<int, int> GetPositon()

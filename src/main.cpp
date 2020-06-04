@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 	init_pair(MAP_KITCHEN, COLOR_WHITE, COLOR_RED);
 	init_pair(TABLE_DEFAULT, COLOR_WHITE, COLOR_CYAN);
 
-	Kitchen *kitchen = new Kitchen(15, 15, 5);
+	Kitchen *kitchen = new Kitchen(15, 15, 5, 10);
 	DeliveryManager *map = new DeliveryManager(50, 30, kitchen, 3, 10, 5, globalThreadsContainer);
 	kitchen->AddDeliveryManager(map);
 

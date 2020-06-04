@@ -19,84 +19,13 @@ void Worker::MainLoop()
 {
     if (state == HasNoJob)
     {
-        std::map<std::string, int> prioritiesMap = {
-            {"TakeOrder", kitchenInstance->GetWaitingOrdersNumber()},
-            //{'GoToDepot', kitchenInstance->GetNumberOfOrdersToPrepare() - kitchenInstance->GetReadyIngredientsNumber()},
-            {"ProcessFood", kitchenInstance->GetOrdersToHeat()},
-            {"PrepareIngr", kitchenInstance->GetNumberOfOrdersToPrepare() - kitchenInstance->GetReadyIngredientsNumber()},
-            {"MakeSandwich", kitchenInstance->GetNumberOfOrdersToPrepare()}};
-
-        using pair_type = decltype(prioritiesMap)::value_type;
-
-        auto maxElem = std::max_element(
-            std::begin(prioritiesMap), std::end(prioritiesMap),
-            [](const pair_type &p1, const pair_type &p2) {
-                return p1.second < p2.second;
-            });
-
-        if (maxElem->first == "TakeOrder")
-        {
-            state = TakingOrder;
-        }
-        else if (maxElem->first == "GoToDepot")
-        {
-            state = IsInDepot;
-        }
-        else if (maxElem->first == "ProcessFood")
-        {
-            state = DoesThermalProcessing;
-        }
-        else if (maxElem->first == "PrepareIngr")
-        {
-            state = PrepareIngredient;
-        }
-        else if (maxElem->first == "MakeSandwich")
-        {
-            state = MakesSandwich;
-        }
+        state = MakesSandwich;
+        kitchenInstance->knivesManager->EnterQueue(this);
+        state = WaitingForThermalProcessing;
     }
-    else if (state == IsInDepot)
+    else if (state == WaitingForThermalProcessing)
     {
-    }
-    else if (state == DoesThermalProcessing)
-    {
-        // TODO: temp
-        std::this_thread::sleep_for(std::chrono::milliseconds(INGREDIENTS_PREPARATION_MS));
-
-        kitchenInstance->deliveryManager->OrderReadyToDeliver(
-            kitchenInstance->GetHeatedOrder()
-        );
-    }
-    else if (state == MakesSandwich)
-    {
-        Order *o = kitchenInstance->GetOrderToPrepare();
-        if (o != nullptr && this->kitchenInstance->TryGetReadyIngredients())
-        {
-            std::this_thread::sleep_for(std::chrono::milliseconds(SANDWICH_PREPARATION_MS));
-            kitchenInstance->PassOrderToHeat(o);
-            state = HasNoJob;
-        }
-        else
-        {
-            std::this_thread::sleep_for(std::chrono::milliseconds(PENALTY_MS));
-            state = PrepareIngredient;
-        }
-    }
-    else if (state == PrepareIngredient)
-    {
-        std::this_thread::sleep_for(std::chrono::milliseconds(INGREDIENTS_PREPARATION_MS));
-        state = HasNoJob;
-        kitchenInstance->AddNewReadyIngredient();
-    }
-    else if (state == TakingOrder)
-    {
-        std::this_thread::sleep_for(std::chrono::milliseconds(ORDER_TAKING_MS));
-        auto result = this->kitchenInstance->TryGetOrderToCarryOut();
-        if (result != nullptr)
-        {
-            this->kitchenInstance->PassOrderToPrepare(result);
-        }
-        state = HasNoJob;
+        
     }
 }
 

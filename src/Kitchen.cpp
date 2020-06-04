@@ -2,7 +2,7 @@
 
 #include <curses.h>
 
-Kitchen::Kitchen(int positionX, int positionY, int numOfWorkers)
+Kitchen::Kitchen(int positionX, int positionY, int numOfWorkers, int numOfKnives)
 {
     this->positionX = positionX;
     this->positionY = positionY;
@@ -14,6 +14,8 @@ Kitchen::Kitchen(int positionX, int positionY, int numOfWorkers)
 
     mainTable = new Table(55, 1, std::vector<int>{1, 1, 1}, 50);
     orderQueuesTable = new Table(55, 15, std::vector<int>{1, 3}, 50);
+
+    knivesManager = new KnivesManager(numOfKnives);
 }
 
 void Kitchen::StartSimulation()
