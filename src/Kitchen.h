@@ -69,6 +69,8 @@ public:
 
     std::vector<Fryer *> fryers;
 
+    int GetNumberOfUnusedFryers();
+
     DeliveryManager *deliveryManager;
     KnivesManager *knivesManager;
 

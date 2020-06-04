@@ -15,8 +15,12 @@ bool Fryer::TryToLockAndExecute(Worker *w, const std::function<void(Worker*)>& a
         // mutex wasn't locked. Handle it.
         return false;
     }
+    
+    taken = true;
 
     action(w);
+
+    taken = false;
 
     return true;
 }

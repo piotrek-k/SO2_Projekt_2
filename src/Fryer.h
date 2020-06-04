@@ -16,13 +16,15 @@ class Worker;
 class Fryer
 {
 private:
-    // void simulate();
     std::mutex mtx;
+    bool taken = false;
+
 public:
-    Fryer(/* args */);
+    Fryer();
     ~Fryer();
 
-    bool TryToLockAndExecute(Worker *w, const std::function<void(Worker*)>& action);
+    bool TryToLockAndExecute(Worker *w, const std::function<void(Worker *)> &action);
+    bool IsTaken() { return taken; }
 };
 
 #endif //SO2_PROJEKT_FRYER

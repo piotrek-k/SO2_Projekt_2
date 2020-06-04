@@ -49,8 +49,8 @@ int main(int argc, char *argv[])
 		kitchen->Draw();
 
 		int position = 32;
-		mvprintw(position, 5, "Waiting orders: %d", map->waitingOrdersToDeliver.size());
-		mvprintw(position+1, 5, "Waiting deliverymen: %d", map->waitingDeliverymans.size());
+		//mvprintw(position, 5, "Waiting orders: %d", map->waitingOrdersToDeliver.size());
+		//mvprintw(position+1, 5, "Waiting deliverymen: %d", map->waitingDeliverymans.size());
 
 		refresh();
 

@@ -66,26 +66,27 @@ void Kitchen::Draw()
     {
         ordersQueueContents.push_back(
             std::vector<std::string>{
-                "Oczekujace zamowienia",
+                "Oczekujace nowe zamowienia",
                 std::to_string(GetWaitingOrdersNumber())});
     }
     {
         ordersQueueContents.push_back(
             std::vector<std::string>{
-                "Skladane kanapki",
-                std::to_string(GetNumberOfOrdersToPrepare())});
+                "Zamowenia do dostarczenia",
+                std::to_string(deliveryManager->waitingOrdersToDeliver.size())});
     }
     {
         ordersQueueContents.push_back(
             std::vector<std::string>{
-                "Podgrzewane skladniki",
-                std::to_string(GetOrdersToHeat())});
+                "Dostawcy bez pracy",
+                std::to_string(deliveryManager->waitingDeliverymans.size())});
     }
     {
         ordersQueueContents.push_back(
             std::vector<std::string>{
-                "Oczekujace skladniki",
-                std::to_string(GetReadyIngredientsNumber())});
+                "Nieuzywane smazalnice",
+                std::to_string(GetNumberOfUnusedFryers()) + "/" +
+                    std::to_string(fryers.size())});
     }
     orderQueuesTable->generateTable(std::vector<std::string>{"Nazwa zasobu", "Wartosc"}, ordersQueueContents);
 }
@@ -132,4 +133,18 @@ bool Kitchen::TryGetReadyIngredients()
 void Kitchen::AddNewReadyIngredient()
 {
     waitingReadyIngredients++;
+}
+
+int Kitchen::GetNumberOfUnusedFryers()
+{
+    int counter = 0;
+    for (auto &f : fryers)
+    {
+        if (f->IsTaken())
+        {
+            counter++;
+        }
+    }
+
+    return counter;
 }
