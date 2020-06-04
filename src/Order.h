@@ -10,8 +10,10 @@ class Customer;
 class Order
 {
 private:
+    int id = 0;
+
 public:
-    Order(Customer* customer);
+    Order(Customer *customer);
     ~Order();
 
     std::mutex mtx;
@@ -21,6 +23,7 @@ public:
 
     void StartWaiting();
     void UnlockWaitingThreads();
+    int GetId() { return id; }
 };
 
 #endif //SO2_PROJEKT_ORDER

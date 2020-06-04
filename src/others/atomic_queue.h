@@ -22,10 +22,23 @@ public:
         std::lock_guard<std::mutex> lock(m_mutex);
         if (m_queque.size() > 0)
         {
+            T obj = m_queque.front();
             m_queque.pop();
-            return m_queque.front();
+            return obj;
         }
         return nullptr;
+    }
+
+    bool pop_and_get(T obj)
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        if (m_queque.size() > 0)
+        {
+            obj = m_queque.front();
+            m_queque.pop();
+            return true;
+        }
+        return false;
     }
 
     int size()

@@ -7,6 +7,7 @@
 #define TABLE_DEFAULT       5
 
 #define ORDER_TAKING_MS             1000
-#define SANDWICH_PREPARATION_MS     1000
+#define SANDWICH_PREPARATION_MS     2000
 #define INGREDIENTS_PREPARATION_MS  2000
+#define FRYING_TIME_MS              2000
 #define PENALTY_MS                  1000

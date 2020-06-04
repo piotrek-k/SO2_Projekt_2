@@ -4,6 +4,7 @@
 #include <mutex>
 #include <queue>
 #include <condition_variable>
+#include <functional>
 #include "Worker.h"
 
 class Worker;
@@ -24,7 +25,7 @@ public:
     KnivesManager(int numOfKnives);
     ~KnivesManager();
 
-    void EnterQueue(Worker *w);
+    void EnterQueue(Worker *w, const std::function<void(Worker*)>& action);
 };
 
 #endif //SO2_PROJEKT_KNIFE

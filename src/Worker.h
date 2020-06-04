@@ -8,18 +8,19 @@
 #include <algorithm>
 #include "Globals.h"
 #include "KnivesManager.h"
+#include "Order.h"
 
 class Kitchen;
 
 enum WorkerState
 {
     HasNoJob,
-    IsInDepot,
-    DoesThermalProcessing,
-    MakesSandwich,
-    PrepareIngredient,
-    TakingOrder,
-    WaitingForThermalProcessing,
+    WaitsForKnife,
+    PreparesFood,
+    FinishedPreparation,
+    WaitsForFryer,
+    FriesFood,
+    FinalFoodPreparation
 };
 
 class Worker : public TableElement
@@ -27,7 +28,7 @@ class Worker : public TableElement
 private:
     WorkerState state = HasNoJob;
 
-    Kitchen* kitchenInstance;
+    Kitchen *kitchenInstance;
 
     void goToDepot();
     void processFood();
@@ -35,14 +36,18 @@ private:
 
     std::vector<std::thread *> *globalThreadsContainer;
 
+    Order* order;
+
     static void simulateThread(bool *stopSignal, Worker *instance);
 
 public:
-    Worker(Kitchen* kitchenRef, std::vector<std::thread *> *globalThreadsContainerRef);
+    Worker(Kitchen *kitchenRef, std::vector<std::thread *> *globalThreadsContainerRef);
     ~Worker();
 
     std::string getName();
     std::string getStateName();
+    std::string getOrderId();
+    void setState(WorkerState s) { state = s; }
 
     void StartSimulation(bool *stopSignal);
     void Kill();

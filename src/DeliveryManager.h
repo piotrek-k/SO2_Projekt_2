@@ -37,7 +37,7 @@ public:
     void OrderReadyToDeliver(Order *o);
 
     atomic_queue<Deliveryman *> waitingDeliverymans;
-    atomic_queue<Order *> waitingOrders;
+    atomic_queue<Order *> waitingOrdersToDeliver;
 
     std::mutex deliverymanQueueMtx;
     std::condition_variable deliverymanQueueCV;

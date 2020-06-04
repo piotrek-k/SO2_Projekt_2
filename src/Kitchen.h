@@ -17,6 +17,7 @@
 class Worker;
 class DeliveryManager;
 class KnivesManager;
+class Fryer;
 
 class Kitchen
 {
@@ -28,7 +29,6 @@ private:
 
     std::vector<Worker *> workers;
     std::vector<Cabinet *> cabinets;
-    std::vector<Fryer *> fryers;
 
     atomic_queue<Order *> waitingOrders;
     atomic_queue<Order *> ordersToPrepare;
@@ -63,8 +63,11 @@ public:
     int GetOrdersToHeat() { return ordersToHeat.size(); }
     int GetReadyIngredientsNumber() { return waitingReadyIngredients; }
 
-    Order *GetOrderToPrepare() { return ordersToPrepare.pop_and_get(); }
+    Order *GetOrderToPrepare() { return waitingOrders.pop_and_get(); }
+    bool GetOrderToPrepare(Order *o) { return waitingOrders.pop_and_get(o); }
     Order *GetHeatedOrder() { return ordersToHeat.pop_and_get(); }
+
+    std::vector<Fryer *> fryers;
 
     DeliveryManager *deliveryManager;
     KnivesManager *knivesManager;

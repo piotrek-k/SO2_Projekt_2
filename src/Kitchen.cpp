@@ -12,6 +12,10 @@ Kitchen::Kitchen(int positionX, int positionY, int numOfWorkers, int numOfKnives
         workers.push_back(new Worker(this, globalThreadsContainer));
     }
 
+    for(int f = 0; f < 2; f++){
+        fryers.push_back(new Fryer());
+    }
+
     mainTable = new Table(55, 1, std::vector<int>{1, 1, 1}, 50);
     orderQueuesTable = new Table(55, 15, std::vector<int>{1, 3}, 50);
 
@@ -37,7 +41,7 @@ void Kitchen::Draw()
         std::vector<std::string> row;
         row.push_back(w->getName());
         row.push_back(w->getStateName());
-        row.push_back("Random text");
+        row.push_back(w->getOrderId());
         mainTableContents.push_back(row);
     }
 

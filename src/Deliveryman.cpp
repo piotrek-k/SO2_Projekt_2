@@ -47,16 +47,16 @@ void Deliveryman::MainLoop()
             deliveryManager->deliverymanQueueCV.wait(ulock_dman);
         }
 
-        while(deliveryManager->waitingOrders.size() == 0){
+        while(deliveryManager->waitingOrdersToDeliver.size() == 0){
             deliveryManager->waitForOrdersCV.wait(ulock_dman);
         }
 
         // od tego miejsca gwarantowana jest obecność zamówienia w kolejce
         // dostawca ma wyłączność na jego odebranie
 
-        orderInstance = deliveryManager->waitingOrders.front();
+        orderInstance = deliveryManager->waitingOrdersToDeliver.front();
         targetCustomer = orderInstance->targetCustomerRef;
-        deliveryManager->waitingOrders.pop();
+        deliveryManager->waitingOrdersToDeliver.pop();
         
         state = DeliveringOrder;
 

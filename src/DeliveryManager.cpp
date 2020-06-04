@@ -96,7 +96,8 @@ void DeliveryManager::NewOrderToCarryOut(Order *o){
 
 void DeliveryManager::OrderReadyToDeliver(Order *o)
 {
-    this->waitingOrders.push(o);
+    //std::lock_guard<std::mutex> lock(deliverymanQueueMtx);
+    this->waitingOrdersToDeliver.push(o);
 
     deliverymanQueueCV.notify_all();
     waitForOrdersCV.notify_all();

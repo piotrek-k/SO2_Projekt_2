@@ -5,7 +5,7 @@ KnivesManager::KnivesManager(int numOfKnives)
     this->numOfAvailableObjects = numOfKnives;
 }
 
-void KnivesManager::EnterQueue(Worker *w)
+void KnivesManager::EnterQueue(Worker *w, const std::function<void(Worker*)>& action)
 {
     {
         const std::lock_guard<std::mutex> lock(queueInsertMutex);
@@ -28,7 +28,7 @@ void KnivesManager::EnterQueue(Worker *w)
         }
     }
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(SANDWICH_PREPARATION_MS));
+    action(w);
 
     {
         const std::lock_guard<std::mutex> lock(counterMutex);
