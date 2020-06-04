@@ -20,7 +20,7 @@ private:
     std::vector<Deliveryman *> allDeliverymans;
     std::vector<Customer *> allCustomers;
     Kitchen *kitchenRef;
-    
+
     std::vector<std::thread *> *globalThreadsContainer = new std::vector<std::thread *>();
 
     void simulationThread(bool *stopSignal);
@@ -36,6 +36,8 @@ public:
 
     void NewOrderToCarryOut(Order *o);
     void OrderReadyToDeliver(Order *o);
+
+    std::vector<Deliveryman *> GetDeliverymans() { return allDeliverymans; }
 
     atomic_queue<Deliveryman *> waitingDeliverymans;
     atomic_queue<Order *> waitingOrdersToDeliver;

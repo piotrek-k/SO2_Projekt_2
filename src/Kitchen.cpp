@@ -17,8 +17,8 @@ Kitchen::Kitchen(int positionX, int positionY, int numOfWorkers, int numOfKnives
         fryers.push_back(new Fryer());
     }
 
-    mainTable = new Table(55, 1, std::vector<int>{1, 1, 1}, 50);
-    orderQueuesTable = new Table(110, 1, std::vector<int>{1, 3}, 50);
+    mainTable = new Table(55, 1, std::vector<int>{1, 1, 1}, 55);
+    orderQueuesTable = new Table(115, 1, std::vector<int>{1, 3}, 50);
 
     knivesManager = new KnivesManager(numOfKnives);
 }
@@ -43,6 +43,15 @@ void Kitchen::Draw()
     mainTableColumnNames.push_back("Id zamowienia");
 
     for (auto &w : workers)
+    {
+        std::vector<std::string> row;
+        row.push_back(w->getName());
+        row.push_back(w->getStateName());
+        row.push_back(w->getOrderId());
+        mainTableContents.push_back(row);
+    }
+
+    for (auto &w : deliveryManager->GetDeliverymans())
     {
         std::vector<std::string> row;
         row.push_back(w->getName());

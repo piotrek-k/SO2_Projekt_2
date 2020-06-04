@@ -62,6 +62,7 @@ void Worker::MainLoop()
     else if (state == FinalFoodPreparation)
     {
         kitchenInstance->deliveryManager->OrderReadyToDeliver(order);
+        order = nullptr;
         state = HasNoJob;
     }
 }

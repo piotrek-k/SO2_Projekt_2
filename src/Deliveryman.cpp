@@ -74,6 +74,9 @@ void Deliveryman::MainLoop()
         {
             this->orderInstance->UnlockWaitingThreads();
             state = ComingBackToKitchen;
+
+            delete orderInstance;
+            orderInstance = nullptr;
         }
     }
 
@@ -118,3 +121,38 @@ void Deliveryman::StartSimulation(bool *stopSignal)
 //     targetCustomer = customer;
 //     orderInstance = order;
 // }
+
+std::string Deliveryman::getName()
+{
+    return "Deliveryman";
+}
+
+std::string Deliveryman::getStateName()
+{
+    switch (state)
+    {
+    case DeliverymanState::WaitingForOrders:
+        return "WaitingForOrders";
+        break;
+    case DeliverymanState::DeliveringOrder:
+        return "DeliveringOrder";
+        break;
+    case DeliverymanState::ComingBackToKitchen:
+        return "ComingBackToKitchen";
+        break;
+
+    default:
+        break;
+    }
+
+    return "Unknown";
+}
+
+std::string Deliveryman::getOrderId()
+{
+    if (orderInstance != nullptr)
+    {
+        return "" + std::to_string(orderInstance->GetId());
+    }
+    return "Undefined";
+}

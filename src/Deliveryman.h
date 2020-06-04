@@ -49,6 +49,10 @@ public:
 
     void MainLoop();
     void StartSimulation(bool *stopSignal);
+
+    std::string getName();
+    std::string getStateName();
+    std::string getOrderId();
 };
 
 
