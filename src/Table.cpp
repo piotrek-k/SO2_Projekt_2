@@ -98,7 +98,7 @@ int Table::getColumnBeginningPos(std::vector<int> tableColumnsSizes, int tableWi
             return currentMove;
         }
 
-        currentMove += tableWidth / sum * tableColumnsSizes[columnIndex];
+        currentMove += (tableWidth / sum) * tableColumnsSizes[c];
     }
 
     return -1;

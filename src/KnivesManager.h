@@ -6,6 +6,7 @@
 #include <condition_variable>
 #include <functional>
 #include "Worker.h"
+#include "others/atomic_queue.h"
 
 class Worker;
 
@@ -17,7 +18,7 @@ private:
     std::mutex counterMutex;
     std::condition_variable cv;
 
-    std::queue<Worker *> workerQueue;
+    atomic_queue<Worker *> workerQueue;
 
     int numOfAvailableObjects = 0;
 

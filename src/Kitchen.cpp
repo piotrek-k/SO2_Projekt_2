@@ -17,8 +17,8 @@ Kitchen::Kitchen(int positionX, int positionY, int numOfWorkers, int numOfKnives
         fryers.push_back(new Fryer());
     }
 
-    mainTable = new Table(55, 1, std::vector<int>{1, 1, 1}, 55);
-    orderQueuesTable = new Table(115, 1, std::vector<int>{1, 3}, 50);
+    mainTable = new Table(55, 1, std::vector<int>{2, 3, 2}, 60);
+    orderQueuesTable = new Table(120, 1, std::vector<int>{3, 1}, 50);
 
     knivesManager = new KnivesManager(numOfKnives);
 }

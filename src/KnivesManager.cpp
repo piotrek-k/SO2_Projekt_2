@@ -5,27 +5,25 @@ KnivesManager::KnivesManager(int numOfKnives)
     this->numOfAvailableObjects = numOfKnives;
 }
 
-void KnivesManager::EnterQueue(Worker *w, const std::function<void(Worker*)>& action)
+void KnivesManager::EnterQueue(Worker *w, const std::function<void(Worker *)> &action)
 {
     {
         const std::lock_guard<std::mutex> lock(queueInsertMutex);
         workerQueue.push(w);
     }
 
-    std::unique_lock<std::mutex> unlock_object(queueMutex);
-    while (workerQueue.front() != w)
     {
-        cv.wait(unlock_object);
-    }
-    workerQueue.pop();
+        std::unique_lock<std::mutex> unlock_object(queueMutex);
 
-    {
-        const std::lock_guard<std::mutex> lock(counterMutex);
-        if (numOfAvailableObjects > 1)
+        while (workerQueue.front() != w || numOfAvailableObjects == 0)
         {
-            numOfAvailableObjects--;
-            cv.notify_all();
+            cv.wait(unlock_object);
         }
+        {
+            const std::lock_guard<std::mutex> lock(counterMutex);
+            numOfAvailableObjects--;
+        }
+        workerQueue.pop();
     }
 
     action(w);
