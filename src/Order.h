@@ -13,7 +13,7 @@ private:
     int id = 0;
 
 public:
-    Order(Customer *customer);
+    Order(Customer *customer, int counter);
     ~Order();
 
     std::mutex mtx;

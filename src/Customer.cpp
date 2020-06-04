@@ -48,7 +48,11 @@ void Customer::MainLoop()
 
     std::this_thread::sleep_for(std::chrono::milliseconds(timeToNextOrder));
 
-    activeOrder = new Order(this);
+    {
+        std::lock_guard<std::mutex> orderCounterLock(mapRef->orderCounterMtx);
+        activeOrder = new Order(this, mapRef->orderCounter);
+        mapRef->orderCounter++;
+    }
 
     //this->mapRef->OrderReadyToDeliver(activeOrder);
     this->mapRef->NewOrderToCarryOut(activeOrder);
@@ -60,6 +64,7 @@ void Customer::MainLoop()
     delete activeOrder;
 }
 
-CustomerState Customer::GetState() {
+CustomerState Customer::GetState()
+{
     return state;
 }

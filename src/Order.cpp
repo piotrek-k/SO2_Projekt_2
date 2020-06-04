@@ -1,7 +1,8 @@
 #include "Order.h"
 
-Order::Order(Customer* customer){
+Order::Order(Customer* customer, int counter){
     this->targetCustomerRef = customer;
+    this->id = counter;
 }
 
 Order::~Order(){

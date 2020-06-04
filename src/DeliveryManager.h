@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <queue>
+#include <mutex>
 #include "Deliveryman.h"
 #include "Customer.h"
 #include "Kitchen.h"
@@ -19,7 +20,7 @@ private:
     std::vector<Deliveryman *> allDeliverymans;
     std::vector<Customer *> allCustomers;
     Kitchen *kitchenRef;
-
+    
     std::vector<std::thread *> *globalThreadsContainer = new std::vector<std::thread *>();
 
     void simulationThread(bool *stopSignal);
@@ -42,6 +43,9 @@ public:
     std::mutex deliverymanQueueMtx;
     std::condition_variable deliverymanQueueCV;
     std::condition_variable waitForOrdersCV;
+
+    int orderCounter = 0;
+    std::mutex orderCounterMtx;
 
     int positionX = 0;
     int positionY = 0;
