@@ -23,6 +23,26 @@ std::vector<std::thread *> *globalThreadsContainer = new std::vector<std::thread
 
 int main(int argc, char *argv[])
 {
+
+	int numofWorkers = 5;
+	int numOfKnives = 2;
+	int numOfDeliverymans = 3;
+	int numOfClients = 10;
+	int orderFreq = 5;
+
+	if (argc < 6)
+	{
+		std::cout << "[numofWorkers][numOfKnives][numOfDeliverymans][numOfClients][orderFreq]" << std::endl;
+	}
+	else
+	{
+		numofWorkers = atoi(argv[1]);
+		numOfKnives = atoi(argv[2]);
+		numOfDeliverymans = atoi(argv[3]);
+		numOfClients = atoi(argv[4]);
+		orderFreq = atoi(argv[5]);
+	}
+
 	initscr(); /* Start curses mode 		  */
 	start_color();
 	init_pair(MAP_BACKGROUND, COLOR_WHITE, COLOR_CYAN);
@@ -32,8 +52,8 @@ int main(int argc, char *argv[])
 	init_pair(MAP_KITCHEN, COLOR_WHITE, COLOR_RED);
 	init_pair(TABLE_DEFAULT, COLOR_WHITE, COLOR_CYAN);
 
-	Kitchen *kitchen = new Kitchen(15, 15, 5, 10);
-	DeliveryManager *map = new DeliveryManager(50, 30, kitchen, 3, 10, 5, globalThreadsContainer);
+	Kitchen *kitchen = new Kitchen(15, 15, numofWorkers, numOfKnives);
+	DeliveryManager *map = new DeliveryManager(50, 30, kitchen, numOfDeliverymans, numOfClients, orderFreq, globalThreadsContainer);
 	kitchen->AddDeliveryManager(map);
 
 	map->StartSimulation();

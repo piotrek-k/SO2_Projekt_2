@@ -154,5 +154,5 @@ std::string Deliveryman::getOrderId()
     {
         return "" + std::to_string(orderInstance->GetId());
     }
-    return "Undefined";
+    return "Brak";
 }

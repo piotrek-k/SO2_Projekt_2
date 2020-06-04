@@ -119,5 +119,5 @@ std::string Worker::getOrderId()
     {
         return "" + std::to_string(order->GetId());
     }
-    return "Undefined";
+    return "Brak";
 }
