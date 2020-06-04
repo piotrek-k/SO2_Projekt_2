@@ -18,7 +18,7 @@ public:
 
     static void tableDrawHorizontalBorder(int x, int y, int width);
     static int getColumnBeginningPos(std::vector<int> tableColumnsSizes, int tableWidth, int columnIndex);
-    void generateTable(std::vector<std::vector<std::string>> contents);
+    void generateTable(std::vector<std::string> columnNames, std::vector<std::vector<std::string>> contents);
 };
 
 #endif //SO2_PROJEKT_TABLE

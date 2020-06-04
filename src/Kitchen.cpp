@@ -12,12 +12,13 @@ Kitchen::Kitchen(int positionX, int positionY, int numOfWorkers, int numOfKnives
         workers.push_back(new Worker(this, globalThreadsContainer));
     }
 
-    for(int f = 0; f < 2; f++){
+    for (int f = 0; f < 2; f++)
+    {
         fryers.push_back(new Fryer());
     }
 
     mainTable = new Table(55, 1, std::vector<int>{1, 1, 1}, 50);
-    orderQueuesTable = new Table(55, 15, std::vector<int>{1, 3}, 50);
+    orderQueuesTable = new Table(110, 1, std::vector<int>{1, 3}, 50);
 
     knivesManager = new KnivesManager(numOfKnives);
 }
@@ -35,6 +36,11 @@ void Kitchen::StartSimulation()
 void Kitchen::Draw()
 {
     std::vector<std::vector<std::string>> mainTableContents;
+    std::vector<std::string> mainTableColumnNames;
+
+    mainTableColumnNames.push_back("Typ");
+    mainTableColumnNames.push_back("Czynnosc");
+    mainTableColumnNames.push_back("Id zamowienia");
 
     for (auto &w : workers)
     {
@@ -45,7 +51,7 @@ void Kitchen::Draw()
         mainTableContents.push_back(row);
     }
 
-    mainTable->generateTable(mainTableContents);
+    mainTable->generateTable(mainTableColumnNames, mainTableContents);
 
     std::vector<std::vector<std::string>> ordersQueueContents;
     {
@@ -72,7 +78,7 @@ void Kitchen::Draw()
                 "Oczekujace skladniki",
                 std::to_string(GetReadyIngredientsNumber())});
     }
-    orderQueuesTable->generateTable(ordersQueueContents);
+    orderQueuesTable->generateTable(std::vector<std::string>{"Nazwa zasobu", "Wartosc"}, ordersQueueContents);
 }
 
 void Kitchen::PassNewOrder(Order *o)

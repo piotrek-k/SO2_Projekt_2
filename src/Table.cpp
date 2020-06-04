@@ -2,17 +2,43 @@
 #include <curses.h>
 #include <string>
 
-Table::Table(int posX, int posY, std::vector<int> sizes, int width){
+Table::Table(int posX, int posY, std::vector<int> sizes, int width)
+{
     this->posX = posX;
     this->posY = posY;
     this->tableColumnsSizes = sizes;
     this->tableWidth = width;
 }
 
-void Table::generateTable(std::vector<std::vector<std::string>> contents)
+void Table::generateTable(std::vector<std::string> columnNames, std::vector<std::vector<std::string>> contents)
 {
     int currentLinePosVertical = posY;
     int currentLinePosHorizontal = posX;
+
+    tableDrawHorizontalBorder(posX, currentLinePosVertical, tableWidth);
+    currentLinePosVertical++;
+    
+    {
+        int colIndex = 0;
+        for (auto &name : columnNames)
+        {
+            currentLinePosHorizontal =
+                posX + getColumnBeginningPos(tableColumnsSizes, tableWidth, colIndex);
+
+            mvaddch(currentLinePosVertical,
+                    currentLinePosHorizontal, '*');
+
+            mvprintw(currentLinePosVertical, currentLinePosHorizontal + 1,
+                     " %s", name.c_str());
+
+            colIndex++;
+        }
+        currentLinePosHorizontal = posX + tableWidth - 1;
+        mvaddch(currentLinePosVertical,
+                currentLinePosHorizontal, '*');
+
+        currentLinePosVertical++;
+    }
 
     tableDrawHorizontalBorder(posX, currentLinePosVertical, tableWidth);
 
