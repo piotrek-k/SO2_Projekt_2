@@ -1,14 +1,19 @@
 #ifndef SO2_PROJEKT_ATOMICQUEUE
 #define SO2_PROJEKT_ATOMICQUEUE
 
+#include <mutex>
+#include <condition_variable>
+
 template <typename T>
 class atomic_queue
 {
 public:
+
     void push(const T &value)
     {
         std::lock_guard<std::mutex> lock(m_mutex);
         m_queque.push(value);
+        queue_push_cv.notify_all();
     }
 
     void pop()
@@ -52,6 +57,8 @@ public:
         std::lock_guard<std::mutex> lock(m_mutex);
         return m_queque.front();
     }
+
+    std::condition_variable queue_push_cv;
 
 private:
     std::queue<T> m_queque;

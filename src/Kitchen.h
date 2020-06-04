@@ -30,7 +30,7 @@ private:
     std::vector<Worker *> workers;
     std::vector<Cabinet *> cabinets;
 
-    atomic_queue<Order *> waitingOrders;
+    
     atomic_queue<Order *> ordersToPrepare;
     atomic_queue<Order *> ordersToHeat;
     int waitingReadyIngredients = 0; // wstępnie przetworzone produkty
@@ -46,6 +46,8 @@ private:
 public:
     Kitchen(int positionX, int positionY, int numOfWorkers, int numOfKnives);
     ~Kitchen();
+
+    atomic_queue<Order *> waitingOrders;
 
     void StartSimulation();
     void Draw();
@@ -73,6 +75,8 @@ public:
 
     DeliveryManager *deliveryManager;
     KnivesManager *knivesManager;
+    
+    std::mutex getOrderQueueMutex; 
 
     void AddDeliveryManager(DeliveryManager *dm) { this->deliveryManager = dm; }
 

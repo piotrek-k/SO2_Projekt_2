@@ -23,7 +23,8 @@ void Worker::MainLoop()
         Order *resultOrder = kitchenInstance->GetOrderToPrepare();
         while (resultOrder == nullptr)
         {
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+            std::unique_lock<std::mutex> unlock_object(kitchenInstance->getOrderQueueMutex);
+            kitchenInstance->waitingOrders.queue_push_cv.wait(unlock_object);
             resultOrder = kitchenInstance->GetOrderToPrepare();
         }
         order = resultOrder;
