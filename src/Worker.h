@@ -20,6 +20,7 @@ enum WorkerState
     FinishedPreparation,
     WaitsForFryer,
     FriesFood,
+    FinishedFrying,
     FinalFoodPreparation
 };
 

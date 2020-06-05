@@ -48,6 +48,7 @@ void Worker::MainLoop()
                 fryingFinished = f->TryToLockAndExecute(this, [](Worker *w) {
                     w->setState(WorkerState::FriesFood);
                     std::this_thread::sleep_for(std::chrono::milliseconds(FRYING_TIME_MS));
+                    w->setState(WorkerState::FinishedFrying);
                 });
 
                 if (fryingFinished)
@@ -101,6 +102,9 @@ std::string Worker::getStateName()
         break;
     case WorkerState::FriesFood:
         return "FriesFood";
+        break;
+    case WorkerState::FinishedFrying:
+        return "FinishedFrying";
         break;
     case WorkerState::FinalFoodPreparation:
         return "FinalFoodPreparation";
